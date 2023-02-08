@@ -8,6 +8,7 @@ const launchesRouter = require("./routes/launches/launches.router");
 
 const app = express();
 
+//cors middleware for accept cross origin req.
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.use("/planets", planetsRouter);
 app.use("/launches", launchesRouter);
+
 app.get("/*", (req, resp) => {
   resp.sendFile(path.join(__dirname, "..", "public", "index.html"));
 });
