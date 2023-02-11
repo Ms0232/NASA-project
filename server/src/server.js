@@ -1,14 +1,16 @@
 const http = require("http");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = require("./app");
 
-const { loadPlanetData } = require("./models/planets.model");
+const { loadPlanetsData } = require("./models/planets.model");
+const { loadLaunchData } = require("./models/launches.model");
 
 const PORT = process.env.PORT || 8000;
 
-const MONGO_URL =
-  "mongodb+srv://mayank:5252552@nodeproject.dooc2dw.mongodb.net/Nasa?retryWrites=true&w=majority";
+//update below to match your own MongoDB connection string.
+const MONGO_URL = process.env.MONGO_URL;
 
 const server = http.createServer(app);
 
@@ -23,7 +25,8 @@ mongoose.connection.on("error", (err) => {
 async function startServer() {
   await mongoose.connect(MONGO_URL);
 
-  await loadPlanetData();
+  await loadPlanetsData();
+  await loadLaunchData();
 
   server.listen(PORT, () => {
     console.log(`listing on port ${PORT}..`);
